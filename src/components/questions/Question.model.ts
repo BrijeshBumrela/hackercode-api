@@ -57,7 +57,7 @@ enum Difficulty {
     EXPERT = 'expert',
 }
 
-export interface IUser extends mongoose.Document {
+export interface IQuestion extends mongoose.Document {
     title: string;
     description: string;
     constraints: string[];
@@ -69,5 +69,5 @@ export interface IUser extends mongoose.Document {
     points: number;
 }
 
-const Question = mongoose.model<IUser>('Question', QuestionSchema);
+const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
 export default Question;
