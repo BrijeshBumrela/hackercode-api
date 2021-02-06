@@ -51,9 +51,9 @@ test.after.always(async () => {
     mongod.stop();
 });
 
-test('It should create an user with valid information', async t => {
+test('It should return 200 status', async t => {
     await createValidQuestion();
-    const question = await Question.find();
-    console.log(question, question.length);
-    t.true(question.length === 1);
+
+    const res = await request(app).get('/question');
+    t.true(res.status === 200);
 });

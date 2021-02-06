@@ -4,16 +4,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const port = process.env.PORT || 3000;
+const dbString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.y8mcc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose
-    .connect(
-        `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.y8mcc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    )
-    .then(console.log)
+    .connect(dbString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
     .catch(console.error);
 
 app.listen(port, () => {
