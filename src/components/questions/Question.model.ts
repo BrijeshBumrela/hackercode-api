@@ -17,7 +17,7 @@ const QuestionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    constraints: [{ type: String, default: [] }],
+    constraints: [{ type: String }],
     examples: [{ input: String, output: String }],
     submissions: {
         type: Number,
@@ -30,7 +30,7 @@ const QuestionSchema = new mongoose.Schema({
         required: true,
     },
     testcases: [{ input: String, output: String }],
-    arguments: [{ name: String, required: true }],
+    argumentTypes: [{ type: String }],
     points: {
         type: Number,
         required: true,
