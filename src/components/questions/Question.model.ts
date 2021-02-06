@@ -29,7 +29,17 @@ const QuestionSchema = new mongoose.Schema({
         enum: ['beginner', 'easy', 'medium', 'hard', 'expert'],
         required: true,
     },
-    testcases: [{ input: String, output: String }],
+    testcases: [
+        {
+            input: String,
+            output: String,
+            sample: {
+                type: Boolean,
+                default: false,
+                required: true,
+            },
+        },
+    ],
     argumentTypes: [{ type: String }],
     points: {
         type: Number,
@@ -44,12 +54,15 @@ interface Example {
 
 // Reasoning behind making output as array because
 // some questions might have more than 1 thing as output
-interface Testcase {
+export interface Testcase {
     input: string[];
     output: string[];
+    sample: boolean;
 }
 
-enum Difficulty {
+export const difficultyList = ['beginner', 'easy', 'medium', 'hard', 'expert'];
+
+export enum Difficulty {
     HARD = 'hard',
     MEDIUM = 'medium',
     EASY = 'easy',
