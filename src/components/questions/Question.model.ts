@@ -47,7 +47,7 @@ const QuestionSchema = new mongoose.Schema({
     },
 });
 
-interface Example {
+export interface Example {
     input: string;
     output: string;
 }

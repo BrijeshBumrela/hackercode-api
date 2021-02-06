@@ -13,6 +13,7 @@ const {
     difficultyCheck,
     argumentsCheck,
     pointsCheck,
+    examplesCheck,
 } = questionCheck;
 
 const router = Router();
@@ -32,6 +33,7 @@ router.post(
     difficultyCheck(),
     argumentsCheck(),
     pointsCheck(),
+    examplesCheck(),
     async (req, res) => {
         const errors = validationResult(req);
 

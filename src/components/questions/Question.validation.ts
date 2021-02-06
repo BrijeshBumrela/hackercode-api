@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { check } from 'express-validator';
 import { QuestionRouter } from '../../routes';
-import { Testcase, difficultyList } from './Question.model';
+import { Testcase, difficultyList, Example } from './Question.model';
 
 const titleCheck = () => {
     const name = 'title';
@@ -42,11 +42,12 @@ const constraintCheck = () => {
 };
 
 const testcaseCheck = () => {
-    return check('examples')
+    return check('testcases')
         .isArray()
-        .withMessage('examples is not an array')
+        .withMessage('testcase is not an array')
         .bail()
         .custom((testcases: Testcase[]) => {
+            console.log(testcases);
             testcases.forEach(testcase => {
                 const { input, output, sample } = testcase;
                 if (input.length === 0 || output.length === 0)
@@ -55,6 +56,7 @@ const testcaseCheck = () => {
                     throw new TypeError('invalid format for sample');
                 }
             });
+            return true;
         });
 };
 
@@ -76,6 +78,22 @@ const pointsCheck = () => {
     return check('points').isInt({ min: 1, max: 8 });
 };
 
+const examplesCheck = () => {
+    return check('examples')
+        .isArray()
+        .withMessage('examples should be array')
+        .bail()
+        .custom((examples: Example[]) => {
+            examples.forEach(example => {
+                const { input, output } = example;
+                if (input.length === 0 || output.length === 0) {
+                    throw new Error('invalid example');
+                }
+            });
+            return true;
+        });
+};
+
 const QuestionCheck = {
     titleCheck,
     descriptionCheck,
@@ -85,6 +103,7 @@ const QuestionCheck = {
     difficultyCheck,
     argumentsCheck,
     pointsCheck,
+    examplesCheck,
 };
 
 export default QuestionCheck;
