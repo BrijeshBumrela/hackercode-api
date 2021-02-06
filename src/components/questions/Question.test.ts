@@ -16,7 +16,7 @@ test.before(async () => {
     });
 });
 
-test.beforeEach(async () => {
+const createValidQuestion = async () => {
     const question = new Question({
         description: 'description about my question',
         examples: [
@@ -42,12 +42,18 @@ test.beforeEach(async () => {
     });
 
     await question.save();
+};
+
+test.afterEach.always(() => Question.deleteMany());
+
+test.after.always(async () => {
+    mongoose.disconnect();
+    mongod.stop();
 });
 
-test('Question model', t => {
-    t.pass();
-});
-
-test.afterEach(() => {
-    Question.remove();
+test('It should create an user with valid information', async t => {
+    await createValidQuestion();
+    const question = await Question.find();
+    console.log(question, question.length);
+    t.true(question.length === 1);
 });
