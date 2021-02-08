@@ -1,4 +1,5 @@
-import { body, param } from 'express-validator';
+import { NextFunction, Request, Response } from 'express';
+import { body, param, validationResult } from 'express-validator';
 import { Testcase, difficultyList, Example } from './Question.model';
 
 const titleCheck = () => {
@@ -95,6 +96,20 @@ const idCheck = () => {
     return param('id').isMongoId().withMessage('invalid id');
 };
 
+const validateInput = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const validationErrors: { [key: string]: string } = {};
+        errors.array().forEach(arr => {
+            validationErrors[arr.param] = arr.msg;
+        });
+        return res.status(400).send(validationErrors);
+    }
+
+    next();
+};
+
 const QuestionCheck = {
     titleCheck,
     descriptionCheck,
@@ -106,6 +121,7 @@ const QuestionCheck = {
     pointsCheck,
     examplesCheck,
     idCheck,
+    validateInput,
 };
 
 export default QuestionCheck;

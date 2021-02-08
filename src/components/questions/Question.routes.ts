@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import { validationResult } from 'express-validator';
-
 import { getAllQuestions, updateQuestion } from './Question.service';
 import questionCheck from './Question.validation';
 
@@ -15,6 +13,7 @@ const {
     pointsCheck,
     examplesCheck,
     idCheck,
+    validateInput,
 } = questionCheck;
 
 const router = Router();
@@ -36,17 +35,8 @@ router.patch(
     argumentsCheck(),
     pointsCheck(),
     examplesCheck(),
+    validateInput,
     async (req, res) => {
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            const validationErrors: { [key: string]: string } = {};
-            errors.array().forEach(arr => {
-                validationErrors[arr.param] = arr.msg;
-            });
-            return res.status(400).send(validationErrors);
-        }
-
         try {
             await updateQuestion(req.params!.id, req.body);
             return res
@@ -69,17 +59,8 @@ router.post(
     argumentsCheck(),
     pointsCheck(),
     examplesCheck(),
+    validateInput,
     async (req, res) => {
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            const validationErrors: { [key: string]: string } = {};
-            errors.array().forEach(arr => {
-                validationErrors[arr.param] = arr.msg;
-            });
-            return res.status(400).send(validationErrors);
-        }
-
         return res.status(201).send({ message: 'created succesfully' });
     },
 );
