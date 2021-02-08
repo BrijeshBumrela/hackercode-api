@@ -70,7 +70,11 @@ export enum Difficulty {
     EXPERT = 'expert',
 }
 
-export interface IQuestion extends mongoose.Document {
+interface StringKeyOnly {
+    [key: string]: any;
+}
+
+export interface IQuestion extends mongoose.Document, StringKeyOnly {
     title: string;
     description: string;
     constraints: string[];
@@ -78,7 +82,7 @@ export interface IQuestion extends mongoose.Document {
     categories: string[];
     difficulty: Difficulty;
     testcases: Testcase[];
-    arguments: string[];
+    argumentTypes: string[];
     points: number;
 }
 

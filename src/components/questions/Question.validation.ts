@@ -1,6 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
-import { check } from 'express-validator';
-import { QuestionRouter } from '../../routes';
+import { body, param } from 'express-validator';
 import { Testcase, difficultyList, Example } from './Question.model';
 
 const titleCheck = () => {
@@ -10,7 +8,7 @@ const titleCheck = () => {
         max: 100,
     };
 
-    return check(name)
+    return body(name)
         .notEmpty()
         .withMessage(`${name} can not be empty`)
         .bail()
@@ -27,7 +25,7 @@ const descriptionCheck = () => {
         max: 400,
     };
 
-    return check(name)
+    return body(name)
         .notEmpty()
         .withMessage(`${name} can not be empty`)
         .bail()
@@ -38,16 +36,15 @@ const descriptionCheck = () => {
 };
 
 const constraintCheck = () => {
-    return check('constraints').isArray();
+    return body('constraints').isArray();
 };
 
 const testcaseCheck = () => {
-    return check('testcases')
+    return body('testcases')
         .isArray()
         .withMessage('testcase is not an array')
         .bail()
         .custom((testcases: Testcase[]) => {
-            console.log(testcases);
             testcases.forEach(testcase => {
                 const { input, output, sample } = testcase;
                 if (input.length === 0 || output.length === 0)
@@ -61,25 +58,25 @@ const testcaseCheck = () => {
 };
 
 const categoriesCheck = () => {
-    return check('categories').isArray();
+    return body('categories').isArray();
 };
 
 const difficultyCheck = () => {
-    return check('difficulty').isIn(difficultyList);
+    return body('difficulty').isIn(difficultyList);
 };
 
 const argumentsCheck = () => {
-    return check('arguments.*')
+    return body('arguments.*')
         .notEmpty()
         .withMessage('arguments can not be empty');
 };
 
 const pointsCheck = () => {
-    return check('points').isInt({ min: 1, max: 8 });
+    return body('points').isInt({ min: 1, max: 8 });
 };
 
 const examplesCheck = () => {
-    return check('examples')
+    return body('examples')
         .isArray()
         .withMessage('examples should be array')
         .bail()
@@ -94,6 +91,10 @@ const examplesCheck = () => {
         });
 };
 
+const idCheck = () => {
+    return param('id').isMongoId().withMessage('invalid id');
+};
+
 const QuestionCheck = {
     titleCheck,
     descriptionCheck,
@@ -104,6 +105,7 @@ const QuestionCheck = {
     argumentsCheck,
     pointsCheck,
     examplesCheck,
+    idCheck,
 };
 
 export default QuestionCheck;
