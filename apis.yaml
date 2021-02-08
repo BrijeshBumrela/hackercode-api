@@ -1,0 +1,15 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+  description: My description of the apis
+servers:
+  - url: https://dev.example.com
+    description: Development server
+paths:
+  /v1/customers:
+    get:
+      responses:
+        '200':
+          description: OK
+    
