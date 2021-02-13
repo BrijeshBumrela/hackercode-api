@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { validateInput } from '../../helpers/middleware';
 import { getAllQuestions, updateQuestion } from './Question.service';
 import questionCheck from './Question.validation';
 
@@ -13,7 +14,6 @@ const {
     pointsCheck,
     examplesCheck,
     idCheck,
-    validateInput,
 } = questionCheck;
 
 const router = Router();

@@ -1,19 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
-import { check, validationResult } from 'express-validator';
-
-const validateInput = (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        const validationErrors: { [key: string]: string } = {};
-        errors.array().forEach(arr => {
-            validationErrors[arr.param] = arr.msg;
-        });
-        return res.status(400).send(validationErrors);
-    }
-
-    next();
-};
+import { check } from 'express-validator';
 
 const nameCheck = () => {
     return check('name')
@@ -42,7 +27,6 @@ const passwordCheck = () => {
 };
 
 const UserCheck = {
-    validateInput,
     nameCheck,
     emailCheck,
     passwordCheck,

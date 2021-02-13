@@ -1,8 +1,9 @@
 import { Router } from 'express';
+import { validateInput } from '../../helpers/middleware';
 import UserCheck from './User.validation';
 
 const router = Router();
-const { validateInput, nameCheck, emailCheck, passwordCheck } = UserCheck;
+const { nameCheck, emailCheck, passwordCheck } = UserCheck;
 
 router.post(
     '/',
