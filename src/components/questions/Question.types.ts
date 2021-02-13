@@ -1,4 +1,3 @@
-
 export interface Example {
     input: string;
     output: string;
@@ -22,11 +21,7 @@ export enum Difficulty {
     EXPERT = 'expert',
 }
 
-interface StringKeyOnly {
-    [key: string]: any;
-}
-
-export interface IQuestion extends StringKeyOnly {
+export interface IQuestion {
     title: string;
     description: string;
     constraints: string[];

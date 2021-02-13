@@ -48,7 +48,11 @@ const QuestionSchema = new mongoose.Schema({
     },
 });
 
-interface IQuestionModel extends IQuestion, mongoose.Document {}
+interface StringKeyOnly {
+    [key: string]: any;
+}
+
+interface IQuestionModel extends IQuestion, mongoose.Document, StringKeyOnly {}
 
 const Question = mongoose.model<IQuestionModel>('Question', QuestionSchema);
 export default Question;
