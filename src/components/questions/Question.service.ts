@@ -1,4 +1,5 @@
-import Question, { IQuestion } from './Question.model';
+import Question from './Question.model';
+import { IQuestion } from './Question.types';
 
 const getAllQuestions = async () => {
     try {

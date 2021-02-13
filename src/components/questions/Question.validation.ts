@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { body, param, validationResult } from 'express-validator';
-import { Testcase, difficultyList, Example } from './Question.model';
+import { Testcase, difficultyList, Example } from './Question.types';
 
 const titleCheck = () => {
     const name = 'title';

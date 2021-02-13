@@ -1,4 +1,5 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
+import { difficultyList, IQuestion } from './Question.types';
 
 const QuestionSchema = new mongoose.Schema({
     title: {
@@ -26,7 +27,7 @@ const QuestionSchema = new mongoose.Schema({
     categories: [{ type: String }],
     difficulty: {
         type: String,
-        enum: ['beginner', 'easy', 'medium', 'hard', 'expert'],
+        enum: difficultyList,
         required: true,
     },
     testcases: [
@@ -47,44 +48,7 @@ const QuestionSchema = new mongoose.Schema({
     },
 });
 
-export interface Example {
-    input: string;
-    output: string;
-}
+interface IQuestionModel extends IQuestion, mongoose.Document {}
 
-// Reasoning behind making output as array because
-// some questions might have more than 1 thing as output
-export interface Testcase {
-    input: string[];
-    output: string[];
-    sample: boolean;
-}
-
-export const difficultyList = ['beginner', 'easy', 'medium', 'hard', 'expert'];
-
-export enum Difficulty {
-    HARD = 'hard',
-    MEDIUM = 'medium',
-    EASY = 'easy',
-    BEGINNER = 'beginner',
-    EXPERT = 'expert',
-}
-
-interface StringKeyOnly {
-    [key: string]: any;
-}
-
-export interface IQuestion extends mongoose.Document, StringKeyOnly {
-    title: string;
-    description: string;
-    constraints: string[];
-    examples: Example[];
-    categories: string[];
-    difficulty: Difficulty;
-    testcases: Testcase[];
-    argumentTypes: string[];
-    points: number;
-}
-
-const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
+const Question = mongoose.model<IQuestionModel>('Question', QuestionSchema);
 export default Question;

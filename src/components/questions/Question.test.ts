@@ -3,7 +3,7 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
-import Question, { IQuestion } from './Question.model';
+import Question from './Question.model';
 import app from '../../app';
 
 const mongod = new MongoMemoryServer();
