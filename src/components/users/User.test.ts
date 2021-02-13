@@ -76,7 +76,7 @@ const addUser = async (
 users.forEach((user, index) => {
     const { response, status, ...rest } = user;
     test.serial(
-        `validating user inputs for index ${index}`,
+        `validating user inputs for sample ${index}`,
         addUser,
         rest,
         response,
