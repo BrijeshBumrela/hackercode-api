@@ -9,7 +9,7 @@ const validateInput = (req: Request, res: Response, next: NextFunction) => {
         errors.array().forEach(arr => {
             validationErrors[arr.param] = arr.msg;
         });
-        return res.status(400).send(validationErrors);
+        return res.status(400).send({ errors: validationErrors });
     }
 
     next();
