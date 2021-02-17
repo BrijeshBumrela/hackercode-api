@@ -5,10 +5,9 @@ import UserCheck from './User.validation';
 import { addUser } from './User.service';
 import { passportInit } from '../../config/passport';
 import passport from 'passport';
+
 const router = Router();
 const { nameCheck, emailCheck, passwordCheck } = UserCheck;
-
-passportInit();
 
 router.post(
     '/signup',
@@ -48,6 +47,10 @@ router.post(
 
 router.get(
     '/google',
+    (req, res, next) => {
+        passportInit();
+        next();
+    },
     passport.authenticate('google', {
         scope: ['profile'],
     }),

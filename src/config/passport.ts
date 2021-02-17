@@ -8,7 +8,9 @@ const passportInit = () => {
         !process.env['GOOGLE_CLIENT_SECRET'] ||
         !process.env['GOOGLE_CLIENT_ID']
     ) {
-        throw new Error('process variables not found');
+        throw new Error(
+            `process variables not found ${process.env['GOOGLE_CLIENT_SECRET']}`,
+        );
     }
 
     passport.use(
