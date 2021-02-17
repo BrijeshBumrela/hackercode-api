@@ -1,9 +1,4 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-// Always keep dotenv before, if you have any env variables used in the init script of the app
-dotenv.config();
-
 import app from './app';
 
 const port = process.env.PORT || 3000;

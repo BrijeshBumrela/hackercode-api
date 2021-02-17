@@ -21,4 +21,6 @@ export interface IUser {
 export type IUserRegistration = Pick<IUser, 'name' | 'email'> & {
     identifier: string;
 };
-export type IUserLogin = Pick<IUser, 'email'>;
+export type IUserLogin = Pick<IUser, 'email'> & {
+    identifier: string;
+};

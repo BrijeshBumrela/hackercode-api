@@ -1,8 +1,18 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
-import passportJWT from 'passport-jwt';
+import { OAuthOptions } from '../components/auth/Auth.types';
+import { register, getUserById } from '../components/users/User.service';
 
 const GooglePassportStrategy = GoogleStrategy.OAuth2Strategy;
+
+passport.serializeUser((user: any, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser<string>(async (id, done) => {
+    const user = await getUserById(id);
+    done(null, user);
+});
 
 const passportInit = () => {
     if (
@@ -10,7 +20,7 @@ const passportInit = () => {
         !process.env['GOOGLE_CLIENT_ID']
     ) {
         throw new Error(
-            `process variables not found ${process.env['GOOGLE_CLIENT_SECRET']}`,
+            `env variables not found ${process.env['GOOGLE_CLIENT_SECRET']}`,
         );
     }
 
@@ -21,8 +31,17 @@ const passportInit = () => {
                 clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
                 callbackURL: '/auth/google/redirect',
             },
-            (accessToken, refreshToken, profile, done) => {
-                return done(null, profile);
+            async (accessToken, refreshToken, profile, done) => {
+                const { displayName: name, emails, id: identifier } = profile;
+                if (!emails || emails?.length === 0) {
+                    throw new Error(`Email not found`);
+                }
+                const email = emails[0].value;
+                const user = await register(
+                    { name, email, identifier },
+                    OAuthOptions.GOOGLE,
+                );
+                return done(null, user);
             },
         ),
     );

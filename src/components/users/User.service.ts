@@ -25,10 +25,15 @@ const register = async (user: IUserRegistration, type: OAuthOptions) => {
 
     try {
         await newUser.save();
-        return user;
+        return newUser;
     } catch (e) {
         throw new Error(e);
     }
 };
 
-export { register };
+const getUserById = async (id: string) => {
+    const user = await User.findById(id);
+    return user;
+};
+
+export { register, getUserById };
