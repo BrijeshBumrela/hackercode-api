@@ -3,9 +3,12 @@ import { validateInput } from '../../helpers/middleware';
 import { IUserRegistration } from './User.types';
 import UserCheck from './User.validation';
 import { addUser } from './User.service';
-
+import { passportInit } from '../../config/passport';
+import passport from 'passport';
 const router = Router();
 const { nameCheck, emailCheck, passwordCheck } = UserCheck;
+
+passportInit();
 
 router.post(
     '/signup',
@@ -41,6 +44,13 @@ router.post(
     async (req, res) => {
         return res.status(200).send({ message: 'user successfully logged in' });
     },
+);
+
+router.get(
+    '/google',
+    passport.authenticate('google', {
+        scope: ['profile'],
+    }),
 );
 
 export default router;
