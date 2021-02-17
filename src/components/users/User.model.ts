@@ -10,8 +10,21 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: 0,
     },
+    logins: [
+        {
+            // Local, Google, facebook, linkedin
+            strategy: {
+                type: String,
+                required: true,
+            },
+            identifier: {
+                type: String,
+                required: true,
+            },
+            salt: String,
+        },
+    ],
     token: String,
-    salt: String,
     submissions: [
         {
             type: Schema.Types.ObjectId,
@@ -21,10 +34,6 @@ const UserSchema = new mongoose.Schema({
     points: {
         type: Number,
         default: 0,
-    },
-    password: {
-        type: String,
-        required: true,
     },
     favorites: [
         {

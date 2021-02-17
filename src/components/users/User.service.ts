@@ -1,14 +1,27 @@
+import crypto from 'crypto';
 import User from './User.model';
 import { IUserRegistration } from './User.types';
+import { OAuthOptions } from '../auth/Auth.types';
 
-const addUser = async (user: IUserRegistration) => {
-    const { email, name, password } = user;
+const register = async (user: IUserRegistration, type: OAuthOptions) => {
+    const { email, name } = user;
+    let { identifier } = user;
 
     const newUser = new User();
 
+    if (type === OAuthOptions.LOCAL) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        identifier = crypto
+            .pbkdf2Sync(identifier, salt, 1000, 64, `sha512`)
+            .toString('hex');
+    }
+
     newUser.email = email;
     newUser.name = name;
-    newUser.password = password;
+    newUser.logins.push({
+        strategy: type,
+        identifier,
+    });
 
     try {
         await newUser.save();
@@ -18,4 +31,4 @@ const addUser = async (user: IUserRegistration) => {
     }
 };
 
-export { addUser };
+export { register };

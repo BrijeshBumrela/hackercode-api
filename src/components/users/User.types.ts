@@ -1,17 +1,24 @@
-import { IsAlphaOptions } from 'express-validator/src/options';
+import { OAuthOptions } from '../auth/Auth.types';
 import { IQuestion } from '../questions/Question.types';
 import { ISubmission } from '../submissions/Submission.types';
 
 export interface IUser {
     name: string;
     email: string;
-    token: string;
-    salt: string;
     submissions: ISubmission[];
     points: number;
     favorites: IQuestion[];
-    password: string;
+    salt: string;
+    logins: {
+        strategy: OAuthOptions;
+        identifier: string;
+        salt?: string;
+    }[];
 }
 
-export type IUserRegistration = Pick<IUser, 'name' | 'email' | 'password'>;
-export type IUserLogin = Pick<IUser, 'email' | 'password'>;
+// `identifier` is unique id created by oauth strategies. password in case of standard login
+
+export type IUserRegistration = Pick<IUser, 'name' | 'email'> & {
+    identifier: string;
+};
+export type IUserLogin = Pick<IUser, 'email'>;

@@ -3,7 +3,7 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
-import User from './User.model';
+import User from '../users/User.model';
 import app from '../../app';
 
 const mongod = new MongoMemoryServer();
@@ -79,7 +79,7 @@ const addUser = async (
     response: string[],
     status: number,
 ) => {
-    const res = await request(app).post('/users/signup').send(user);
+    const res = await request(app).post('/auth/signup').send(user);
     if (res.status === 400) {
         t.true(Object.keys(res.body.errors).length === response.length);
     }
@@ -141,7 +141,7 @@ const loginUser = async (
     response: string[],
     status: number,
 ) => {
-    const res = await request(app).post('/users/login').send(user);
+    const res = await request(app).post('/auth/login').send(user);
     if (res.status === 400) {
         t.true(Object.keys(res.body.errors).length === response.length);
     }

@@ -1,5 +1,6 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
+import passportJWT from 'passport-jwt';
 
 const GooglePassportStrategy = GoogleStrategy.OAuth2Strategy;
 
@@ -20,7 +21,9 @@ const passportInit = () => {
                 clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
                 callbackURL: '/auth/google/redirect',
             },
-            () => {},
+            (accessToken, refreshToken, profile, done) => {
+                return done(null, profile);
+            },
         ),
     );
 };

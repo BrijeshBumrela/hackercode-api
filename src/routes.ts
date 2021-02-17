@@ -1,4 +1,4 @@
 import QuestionRouter from './components/questions/Question.routes';
-import UserRouter from './components/users/User.routes';
+import AuthRouter from './components/auth/Auth.routes';
 
-export { QuestionRouter, UserRouter };
+export { QuestionRouter, AuthRouter };
