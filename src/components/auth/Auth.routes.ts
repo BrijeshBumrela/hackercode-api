@@ -67,4 +67,10 @@ router.get(
     },
 );
 
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.send({ message: 'user successfully logged out' });
+})
+
 export default router;
