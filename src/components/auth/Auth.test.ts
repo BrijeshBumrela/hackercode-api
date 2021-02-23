@@ -129,7 +129,7 @@ const userslogin = [
         password: null,
         status: 400,
         response: [
-            'name must be between 6 to 32 characters',
+            'password must be between 6 to 32 characters',
             'invalid email address',
         ],
     },
